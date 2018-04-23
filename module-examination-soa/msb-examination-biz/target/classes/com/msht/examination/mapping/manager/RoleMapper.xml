@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<!--
+Copyright (c) 2017 by msht all rights reserved  
+*********************************************** 
+         符号转义说明 特殊服药转义说明
+    &lt;          < 
+    &gt;          >  
+    &lt;&gt;     <>
+    &amp;        & 
+    &apos;       '
+    &quot;       "
+  <![CDATA[ 这里写你的SQL或者符号 ]]> 
+ --> 
+    <mapper namespace="com.msht.examination.user.dao.RoleDao" >  
+      <resultMap id="RolePo" type="com.msht.examination.user.entity.RolePo" >  
+        <id column="id" property="id" jdbcType="INTEGER" />  
+        <result column="name" property="name" jdbcType="VARCHAR" />  
+        <result column="is_supper" property="isSupper" jdbcType="INTEGER" /> 
+        <result column="create_by" property="createBy" jdbcType="INTEGER" /> 
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" /> 
+        <result column="update_by" property="updateBy" jdbcType="INTEGER" /> 
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" /> 
+        <result column="user_id" property="userId" jdbcType="INTEGER" /> 
+      </resultMap>  
+      <sql id="RoleColumns" >  
+        id,name,is_supper,create_by,create_time,update_by,update_time
+      </sql> 
+      
+	<!-- 插入列 -->
+	<sql id="insertColumns">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="id != null" > id ,</if>
+				<if test="name != null and name !=''" > name ,</if>
+				<if test="isSupper != null" > is_supper ,</if>
+				<if test="createBy != null" > create_by ,</if>
+				<if test="createTime != null" > create_time ,</if>
+				<if test="updateBy != null" > update_by ,</if>
+				<if test="updateTime != null" > update_time ,</if>
+		</trim>
+	</sql> 
+	
+    <!-- 插入值 -->
+	<sql id="insertParams">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="id != null" > #{id, jdbcType=INTEGER} ,</if>
+				<if test="name != null and name !=''" > #{name, jdbcType=VARCHAR} ,</if>
+				<if test="isSupper != null" > #{isSupper, jdbcType=INTEGER} ,</if>
+				<if test="createBy != null" > #{createBy, jdbcType=INTEGER} ,</if>
+				<if test="createTime != null" > #{createTime, jdbcType=TIMESTAMP} ,</if>
+				<if test="updateBy != null" > #{updateBy, jdbcType=INTEGER} ,</if>
+				<if test="updateTime != null" > #{updateTime, jdbcType=TIMESTAMP} ,</if>
+		</trim>
+	</sql>
+	
+    <!-- 更新参数 -->
+	<sql id="updateParams">
+		<trim suffix="" suffixOverrides=",">
+				<!-- <if test="id != null" > id = #{id, jdbcType=INTEGER} ,</if> -->
+				<if test="name != null and name !=''" > name = #{name, jdbcType=VARCHAR} ,</if>
+				<if test="isSupper != null" > is_supper = #{isSupper, jdbcType=INTEGER} ,</if>
+				<if test="createBy != null" > create_by = #{createBy, jdbcType=INTEGER} ,</if>
+				<if test="createTime != null" > create_time = #{createTime, jdbcType=TIMESTAMP} ,</if>
+				<if test="updateBy != null" > update_by = #{updateBy, jdbcType=INTEGER} ,</if>
+				<if test="updateTime != null" > update_time = #{updateTime, jdbcType=TIMESTAMP} ,</if>
+		</trim>
+	</sql>
+	
+    <!-- 精准查询 -->
+	<sql id="allAndEqual">
+		<trim suffix="" suffixOverrides=",">
+				<if test="id != null" > and id = #{id, jdbcType=INTEGER}</if>
+				<if test="name != null and name !=''" > and name = #{name, jdbcType=VARCHAR} </if>
+				<if test="isSupper != null" > and is_supper = #{isSupper, jdbcType=INTEGER} </if>
+				<if test="createBy != null" > and create_by = #{createBy, jdbcType=INTEGER} </if>
+				<if test="createTime != null" > and create_time = #{createTime, jdbcType=TIMESTAMP} </if>
+				<if test="updateBy != null" > and update_by = #{updateBy, jdbcType=INTEGER} </if>
+				<if test="updateTime != null" > and update_time = #{updateTime, jdbcType=TIMESTAMP} </if>
+		</trim>
+	</sql>
+	
+     <!-- 模糊查询 -->
+	<sql id="allAndLike">
+		<trim suffix="" suffixOverrides=",">
+				<if test="id != null" > and id = #{id, jdbcType=INTEGER}</if>
+				<if test="name != null and name !=''" > and name like concat('%',#{name, jdbcType=VARCHAR},'%')</if>
+				<if test="isSupper != null" > and is_supper = #{isSupper, jdbcType=INTEGER} </if>
+				<if test="createBy != null" > and create_by = #{createBy, jdbcType=INTEGER} </if>
+				<if test="createTime != null" > and create_time = #{createTime, jdbcType=TIMESTAMP} </if>
+				<if test="updateBy != null" > and update_by = #{updateBy, jdbcType=INTEGER} </if>
+				<if test="updateTime != null" > and update_time = #{updateTime, jdbcType=TIMESTAMP} </if>
+		</trim>
+	</sql>
+	
+	
+	<!-- 单条查询 -->
+	<select id="get" resultMap="RolePo">
+		select <include refid="RoleColumns"/>
+		from sys_role
+		<where><include refid="allAndEqual"/></where>
+	</select>
+	
+	<!-- 批量查询 -->
+	<select id="list" resultMap="RolePo">
+		select <include refid="RoleColumns"/>
+		from sys_role
+		<where><include refid="allAndLike"/>
+			<choose>
+				<when test="page !=null and page.condition != null and page.condition != ''">
+					${page.condition} 
+				</when>
+			</choose>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				order by ${page.orderBy} 
+			</when>
+		</choose>
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.msht.examination.user.entity.RolePo">
+		insert into sys_role
+		<include refid="insertColumns"/>
+		values 
+		<include refid="insertParams"/>
+	</insert>
+	
+	<!-- 批量插入 -->
+	<insert id="insertBatch" parameterType="java.util.List">
+		insert into sys_role
+		(<include refid="insertColumns"/>)
+		values 
+		<foreach collection="list" item="item" index="index" separator=",">
+			(<trim suffix="" suffixOverrides=",">
+				#{item.name,jdbcType=VARCHAR}, 
+				#{item.isSupper,jdbcType=INTEGER},
+				#{item.createBy,jdbcType=INTEGER}, 
+				#{item.createTime,jdbcType=TIMESTAMP}, 
+				#{item.updateBy,jdbcType=INTEGER}, 
+				#{item.updateTime,jdbcType=TIMESTAMP}</trim>)
+		</foreach>
+	</insert>
+	
+	<!-- 更新 -->
+	<update id="update" parameterType="com.msht.examination.user.dao.RoleDao">
+		update sys_role 
+		<set><include refid="updateParams"/></set>
+		<where>id = #{id}</where>
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from sys_role 
+		<where>id = #{id}</where>
+	</delete>
+	
+	<!-- 总数 -->
+	<select id="count" resultType="java.lang.Integer">
+		select count(id) from sys_role 
+		<where><include refid="allAndLike"/>
+					<choose>
+				<when test="page !=null and page.condition != null and page.condition != ''">
+					${page.condition} 
+				</when>
+			</choose>
+		</where>
+	</select>
+	
+    <select id="page" resultMap="RolePo">
+		select <include refid="RoleColumns"/> from sys_role  
+		<where><include refid="allAndLike"/>
+			<choose>
+				<when test="page !=null and page.condition != null and page.condition != ''">
+					${page.condition} 
+				</when>
+			</choose>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				order by ${page.orderBy} 
+			</when>
+		</choose>
+		limit #{page.start},#{page.pageSize}
+	</select>
+	
+	<select id="gets" resultMap="RolePo">
+		select <include refid="RoleColumns"/>
+		from sys_role where id in 
+       <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+      #{item}
+   </foreach>
+	</select>
+	
+	<select id="getRoleMenuIds" resultType="java.lang.Long">
+		select rm.menu_id from sys_role_menu rm where rm.role_id in 
+       <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+      #{item}
+   </foreach>
+	</select>
+	
+	<insert id="insertRoleMenu" useGeneratedKeys="true" keyProperty="id" parameterType="com.msht.examination.user.entity.RoleMenuPo">
+        insert into sys_role_menu(role_id,menu_id) values(#{roleId},#{menuId})
+	</insert>
+	
+	<delete id="deleteRoleMenuByRoleId" parameterType="java.lang.Long">
+		delete from sys_role_menu where role_id=#{roleId}
+	</delete>
+	
+	<select id="findRoleByUserId" resultMap="RolePo">
+		select ur.user_id,r.* from sys_role r,sys_user_role ur where r.id=ur.role_id and ur.user_id in 
+       <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+      #{item}
+   </foreach>
+	</select>		
+</mapper>  

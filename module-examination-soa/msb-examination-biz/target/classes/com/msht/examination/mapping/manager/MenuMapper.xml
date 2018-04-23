@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<!--
+Copyright (c) 2017 by msht all rights reserved  
+*********************************************** 
+         符号转义说明 特殊服药转义说明
+    &lt;          < 
+    &gt;          >  
+    &lt;&gt;     <>
+    &amp;        & 
+    &apos;       '
+    &quot;       "
+  <![CDATA[ 这里写你的SQL或者符号 ]]> 
+ --> 
+    <mapper namespace="com.msht.examination.user.dao.MenuDao" >  
+      <resultMap id="MenuPo" type="com.msht.examination.user.entity.MenuPo" >  
+        <id column="id" property="id" jdbcType="INTEGER" />  
+        <result column="name" property="name" jdbcType="VARCHAR" />  
+        <result column="type" property="type" jdbcType="VARCHAR" />  
+        <result column="url" property="url" jdbcType="VARCHAR" /> 
+        <result column="code" property="code" jdbcType="VARCHAR" /> 
+        <result column="parent_id" property="parentId" jdbcType="INTEGER" /> 
+        <result column="path" property="path" jdbcType="VARCHAR" /> 
+        <result column="priority" property="priority" jdbcType="INTEGER" /> 
+        <result column="title" property="title" jdbcType="VARCHAR" /> 
+        <result column="create_by" property="createBy" jdbcType="INTEGER" /> 
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" /> 
+        <result column="update_by" property="updateBy" jdbcType="INTEGER" /> 
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" /> 
+      </resultMap>  
+      <sql id="MenuColumns" >  
+        id,name,type,url,code,parent_id,path,priority,title,create_by,create_time,update_by,update_time
+      </sql> 
+      
+	<!-- 插入列 -->
+	<sql id="insertColumns">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="id != null" > id ,</if>
+				<if test="name != null and name !=''" > name ,</if>
+				<if test="type != null and type !=''" > type ,</if>
+				<if test="url != null and url !=''" > url ,</if>
+				<if test="code != null and code !=''" > code ,</if>
+				<if test="parentId != null" > parent_id ,</if>
+				<if test="path != null and path !=''" > path ,</if>
+				<if test="priority != null" > priority ,</if>
+				<if test="title != null and title !=''" > title ,</if>
+				<if test="createBy != null" > create_by ,</if>
+				<if test="createTime != null" > create_time ,</if>
+				<if test="updateBy != null" > update_by ,</if>
+				<if test="updateTime != null" > update_time ,</if>
+		</trim>
+	</sql> 
+	
+    <!-- 插入值 -->
+	<sql id="insertParams">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="id != null" > #{id, jdbcType=INTEGER} ,</if>
+				<if test="name != null and name !=''" > #{name, jdbcType=VARCHAR} ,</if>
+				<if test="type != null and type !=''" > #{type, jdbcType=VARCHAR} ,</if>
+				<if test="url != null and url !=''" > #{url, jdbcType=VARCHAR} ,</if>
+				<if test="code != null and code !=''" > #{code, jdbcType=VARCHAR} ,</if>
+				<if test="parentId != null" > #{parentId, jdbcType=INTEGER} ,</if>
+				<if test="path != null and path !=''" > #{path, jdbcType=VARCHAR} ,</if>
+				<if test="priority != null" > #{priority, jdbcType=INTEGER} ,</if>
+				<if test="title != null and title !=''" > #{title, jdbcType=VARCHAR} ,</if>
+				<if test="createBy != null" > #{createBy, jdbcType=INTEGER} ,</if>
+				<if test="createTime != null" > #{createTime, jdbcType=TIMESTAMP} ,</if>
+				<if test="updateBy != null" > #{updateBy, jdbcType=INTEGER} ,</if>
+				<if test="updateTime != null" > #{updateTime, jdbcType=TIMESTAMP} ,</if>
+		</trim>
+	</sql>
+	
+    <!-- 更新参数 -->
+	<sql id="updateParams">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="id != null" > id = #{id, jdbcType=INTEGER} ,</if>
+				<if test="name != null and name !=''" > name = #{name, jdbcType=VARCHAR} ,</if>
+				<if test="type != null and type !=''" > type = #{type, jdbcType=VARCHAR} ,</if>
+				<if test="url != null and url !=''" > url = #{url, jdbcType=VARCHAR} ,</if>
+				<if test="code != null and code !=''" > code = #{code, jdbcType=VARCHAR} ,</if>
+				<if test="parentId != null" > parent_id = #{parentId, jdbcType=INTEGER} ,</if>
+				<if test="path != null and path !=''" > path = #{path, jdbcType=VARCHAR} ,</if>
+				<if test="priority != null" > priority = #{priority, jdbcType=INTEGER} ,</if>
+				<if test="title != null and title !=''" > title = #{title, jdbcType=VARCHAR} ,</if>
+				<if test="createBy != null" > create_by = #{createBy, jdbcType=INTEGER} ,</if>
+				<if test="createTime != null" > create_time = #{createTime, jdbcType=TIMESTAMP} ,</if>
+				<if test="updateBy != null" > update_by = #{updateBy, jdbcType=INTEGER} ,</if>
+				<if test="updateTime != null" > update_time = #{updateTime, jdbcType=TIMESTAMP} ,</if>
+		</trim>
+	</sql>
+	
+    <!-- 精准查询 -->
+	<sql id="allAndEqual">
+		<trim suffix="" suffixOverrides=",">
+				<if test="id != null" > and id = #{id, jdbcType=INTEGER}</if>
+				<if test="name != null and name !=''" > and name = #{name, jdbcType=VARCHAR} </if>
+				<if test="type != null and type !=''" > and type = #{type, jdbcType=VARCHAR} </if>
+				<if test="url != null and url !=''" > and url = #{url, jdbcType=VARCHAR} </if>
+				<if test="code != null and code !=''" > and code = #{code, jdbcType=VARCHAR} </if>
+				<if test="parentId != null" > and parent_id = #{parentId, jdbcType=INTEGER} </if>
+				<if test="path != null and path !=''" > and path = #{path, jdbcType=VARCHAR} </if>
+				<if test="priority != null" > and priority = #{priority, jdbcType=INTEGER} </if>
+				<if test="title != null and title !=''" > and title = #{title, jdbcType=VARCHAR} </if>
+				<if test="createBy != null" > and create_by = #{createBy, jdbcType=INTEGER} </if>
+				<if test="createTime != null" > and create_time = #{createTime, jdbcType=TIMESTAMP} </if>
+				<if test="updateBy != null" > and update_by = #{updateBy, jdbcType=INTEGER} </if>
+				<if test="updateTime != null" > and update_time = #{updateTime, jdbcType=TIMESTAMP} </if>
+		</trim>
+	</sql>
+	
+     <!-- 模糊查询 -->
+	<sql id="allAndLike">
+		<trim suffix="" suffixOverrides=",">
+				<if test="id != null" > and id = #{id, jdbcType=INTEGER}</if>
+				<if test="name != null and name !=''" > and name like concat('%',#{name, jdbcType=VARCHAR},'%')</if>
+				<if test="type != null and type !=''" > and type = #{type, jdbcType=VARCHAR} </if>
+				<if test="url != null and url !=''" > and url = #{url, jdbcType=VARCHAR} </if>
+				<if test="code != null and code !=''" > and code = #{code, jdbcType=VARCHAR}</if>
+				<if test="parentId != null" > and parent_id = #{parentId, jdbcType=INTEGER} </if>
+				<if test="path != null and path !=''" > and path like concat('%',#{path, jdbcType=VARCHAR},'%') </if>
+				<if test="priority != null" > and priority = #{priority, jdbcType=INTEGER} </if>
+				<if test="title != null and title !=''" > and title like concat('%',#{title, jdbcType=VARCHAR},'%')</if>
+				<if test="createBy != null" > and create_by = #{createBy, jdbcType=INTEGER} </if>
+				<if test="createTime != null" > and create_time = #{createTime, jdbcType=TIMESTAMP} </if>
+				<if test="updateBy != null" > and update_by = #{updateBy, jdbcType=INTEGER} </if>
+				<if test="updateTime != null" > and update_time = #{updateTime, jdbcType=TIMESTAMP} </if>
+		</trim>
+	</sql>
+	
+	
+	<!-- 单条查询 -->
+	<select id="get" resultMap="MenuPo">
+		select <include refid="MenuColumns"/>
+		from sys_menu
+		<where><include refid="allAndEqual"/></where>
+	</select>
+	
+	<!-- 批量查询 -->
+	<select id="list" resultMap="MenuPo">
+		select <include refid="MenuColumns"/>
+		from sys_menu
+		<where><include refid="allAndLike"/>
+			<choose>
+				<when test="page !=null and page.condition != null and page.condition != ''">
+					${page.condition} 
+				</when>
+			</choose>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				order by ${page.orderBy} 
+			</when>
+		</choose>
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.msht.examination.user.entity.MenuPo">
+		insert into sys_menu
+		<include refid="insertColumns"/>
+		values 
+		<include refid="insertParams"/>
+	</insert>
+	
+	<!-- 批量插入 -->
+	<insert id="insertBatch" parameterType="java.util.List">
+		insert into sys_menu
+		(<include refid="insertColumns"/>)
+		values 
+		<foreach collection="list" item="item" index="index" separator=",">
+			(<trim suffix="" suffixOverrides=",">
+				#{item.name,jdbcType=VARCHAR}, 
+				#{item.type,jdbcType=INTEGER}, 
+				#{item.url,jdbcType=VARCHAR}, 
+				#{item.code,jdbcType=VARCHAR}, 
+				#{item.parentId,jdbcType=INTEGER}, 
+				#{item.path,jdbcType=VARCHAR}, 
+				#{item.priority,jdbcType=INTEGER},
+				#{item.title,jdbcType=VARCHAR},
+				#{item.createBy,jdbcType=INTEGER}, 
+				#{item.createTime,jdbcType=TIMESTAMP}, 
+				#{item.updateBy,jdbcType=INTEGER}, 
+				#{item.updateTime,jdbcType=TIMESTAMP}</trim>)
+		</foreach>
+	</insert>
+	
+	<!-- 更新 -->
+	<update id="update" parameterType="com.msht.examination.user.entity.MenuPo">
+		update sys_menu
+		<set><include refid="updateParams"/></set>
+		<where>id = #{id}</where>
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from sys_menu
+		<where>id = #{id}</where>
+	</delete>
+	
+	<!-- 总数 -->
+	<select id="count" resultType="java.lang.Integer">
+		select count(id) from sys_menu
+		<where><include refid="allAndLike"/></where>
+	</select>
+	
+    <select id="page" resultMap="MenuPo">
+		select <include refid="MenuColumns"/> from sys_menu 
+		<where><include refid="allAndLike"/>
+			<choose>
+				<when test="page !=null and page.condition != null and page.condition != ''">
+					${page.condition} 
+				</when>
+			</choose>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				order by ${page.orderBy} 
+			</when>
+		</choose>
+		limit #{page.start},#{page.pageSize}
+	</select>
+	
+	<select id="gets" resultMap="MenuPo">
+		select <include refid="MenuColumns"/>
+		from sys_menu where id in
+       <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+      #{item}
+   </foreach>
+	</select>
+	
+	<select id="findMenuByRoleId" resultMap="MenuPo">
+	select m.* from sys_menu m,sys_role_menu rm where m.id=rm.menu_id and rm.role_id=#{roleId}
+	</select>
+</mapper>  

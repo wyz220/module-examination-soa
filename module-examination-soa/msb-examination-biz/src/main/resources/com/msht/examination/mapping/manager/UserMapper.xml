@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<!--
+Copyright (c) 2017 by msht all rights reserved  
+*********************************************** 
+         符号转义说明 特殊服药转义说明
+    &lt;          < 
+    &gt;          >  
+    &lt;&gt;     <>
+    &amp;        & 
+    &apos;       '
+    &quot;       "
+  <![CDATA[ 这里写你的SQL或者符号 ]]> 
+ --> 
+    <mapper namespace="com.msht.examination.user.dao.UserDao" >  
+      <resultMap id="UserPo" type="com.msht.examination.user.entity.UserPo" >  
+        <id column="id" property="id" jdbcType="INTEGER" />  
+        <result column="username" property="username" jdbcType="VARCHAR" />  
+        <result column="password" property="password" jdbcType="VARCHAR" />  
+        <result column="salt" property="salt" jdbcType="VARCHAR" /> 
+        <result column="email" property="email" jdbcType="VARCHAR" /> 
+        <result column="status" property="status" jdbcType="INTEGER" /> 
+        <result column="user_type" property="userType" jdbcType="INTEGER" /> 
+        <result column="is_del" property="isDel" jdbcType="INTEGER" /> 
+        <result column="create_by" property="createBy" jdbcType="INTEGER" /> 
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" /> 
+        <result column="update_by" property="updateBy" jdbcType="INTEGER" /> 
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" /> 
+      </resultMap>  
+      <sql id="UserColumns" >  
+        id,username,password,salt,email,status,user_type,is_del,create_by,create_time,update_by,update_time
+      </sql> 
+      
+	<!-- 插入列 -->
+	<sql id="insertColumns">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="id != null" > id ,</if>
+				<if test="username != null and username !=''" > username ,</if>
+				<if test="password != null and password !=''" > password ,</if>
+				<if test="salt != null and salt !=''" > salt ,</if>
+				<if test="email != null and email !=''" > email ,</if>
+				<if test="status != null" > status ,</if>
+				<if test="userType != null" > user_type ,</if>
+				<if test="isDel != null" > id_del ,</if>
+				<if test="createBy != null" > create_by ,</if>
+				<if test="createTime != null" > create_time ,</if>
+				<if test="updateBy != null" > update_by ,</if>
+				<if test="updateTime != null" > update_time ,</if>
+		</trim>
+	</sql> 
+	
+    <!-- 插入值 -->
+	<sql id="insertParams">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+				
+				<if test="id != null" > #{id, jdbcType=INTEGER} ,</if>
+				<if test="username != null and username !=''" >  #{username, jdbcType=VARCHAR},</if>
+				<if test="password != null and password !=''" > #{password, jdbcType=VARCHAR},</if>
+				<if test="salt != null and salt !=''" >  #{salt, jdbcType=VARCHAR},</if>
+				<if test="email != null and email !=''" >  #{email, jdbcType=VARCHAR},</if>
+				<if test="status != null" >  #{status, jdbcType=INTEGER},</if>
+				<if test="userType != null" >  #{userType, jdbcType=INTEGER},</if>
+				<if test="isDel != null" > #{isDel, jdbcType=INTEGER}  ,</if>
+				<if test="createBy != null" > #{createBy, jdbcType=INTEGER} ,</if>
+				<if test="createTime != null" > #{createTime, jdbcType=TIMESTAMP} ,</if>
+				<if test="updateBy != null" > #{updateBy, jdbcType=INTEGER} ,</if>
+				<if test="updateTime != null" > #{updateTime, jdbcType=TIMESTAMP} ,</if>
+		</trim>
+	</sql>
+	
+    <!-- 更新参数 -->
+	<sql id="updateParams">
+		<trim suffix="" suffixOverrides=",">
+				
+				<!-- <if test="id != null" > id = #{id, jdbcType=INTEGER} ,</if> -->
+				<if test="username != null and username !=''" >  username = #{username, jdbcType=VARCHAR},</if>
+				<if test="password != null and password !=''" > password = #{password, jdbcType=VARCHAR},</if>
+				<if test="salt != null and salt !=''" >  salt = #{salt, jdbcType=VARCHAR},</if>
+				<if test="email != null and email !=''" > email = #{email, jdbcType=VARCHAR},</if>
+				<if test="status != null" >  status = #{status, jdbcType=INTEGER},</if>
+				<if test="userType != null" > user_type = #{userType, jdbcType=INTEGER},</if>
+				<if test="isDel != null" > is_del=#{isDel, jdbcType=INTEGER}  ,</if>
+				<if test="createBy != null" > create_by = #{createBy, jdbcType=INTEGER} ,</if>
+				<if test="createTime != null" > create_time = #{createTime, jdbcType=TIMESTAMP} ,</if>
+				<if test="updateBy != null" > update_by = #{updateBy, jdbcType=INTEGER} ,</if>
+				<if test="updateTime != null" > update_time = #{updateTime, jdbcType=TIMESTAMP} ,</if>
+		</trim>
+	</sql>
+	
+    <!-- 精准查询 -->
+	<sql id="allAndEqual">
+		<trim suffix="" suffixOverrides=",">
+				<if test="id != null" > and id = #{id, jdbcType=INTEGER} </if>
+				<if test="username != null and username !=''" >  and username = #{username, jdbcType=VARCHAR}</if>
+				<if test="password != null and password !=''" > and password = #{password, jdbcType=VARCHAR}</if>
+				<if test="salt != null and salt !=''" >  and salt = #{salt, jdbcType=VARCHAR}</if>
+				<if test="email != null and email !=''" > and email = #{email, jdbcType=VARCHAR}</if>
+				<if test="status != null" >  and status = #{status, jdbcType=INTEGER}</if>
+				<if test="userType != null" > and user_type = #{userType, jdbcType=INTEGER}</if>
+				<if test="isDel != null" > and is_del=#{isDel, jdbcType=INTEGER}  </if>
+				<if test="createBy != null" > and create_by = #{createBy, jdbcType=INTEGER} </if>
+				<if test="createTime != null" > and create_time = #{createTime, jdbcType=TIMESTAMP} </if>
+				<if test="updateBy != null" > and update_by = #{updateBy, jdbcType=INTEGER} </if>
+				<if test="updateTime != null" > and update_time = #{updateTime, jdbcType=TIMESTAMP} </if>
+		</trim>
+	</sql>
+	
+     <!-- 模糊查询 -->
+	<sql id="allAndLike">
+		<trim suffix="" suffixOverrides=",">
+				<if test="id != null" > and id = #{id, jdbcType=INTEGER} </if>
+				<if test="username != null and username !=''" >  and username like concat('%',#{username, jdbcType=VARCHAR},'%')</if>
+				<if test="password != null and password !=''" > and password = #{password, jdbcType=VARCHAR}</if>
+				<if test="salt != null and salt !=''" >  and salt = #{salt, jdbcType=VARCHAR}</if>
+				<if test="email != null and email !=''" > and email = #{email, jdbcType=VARCHAR}</if>
+				<if test="status != null" >  and status = #{status, jdbcType=INTEGER}</if>
+				<if test="userType != null" > and user_type = #{userType, jdbcType=INTEGER}</if>
+				<if test="isDel != null" > and is_del=#{isDel, jdbcType=INTEGER}  </if>
+				<if test="createBy != null" > and create_by = #{createBy, jdbcType=INTEGER} </if>
+				<if test="createTime != null" > and create_time = #{createTime, jdbcType=TIMESTAMP} </if>
+				<if test="updateBy != null" > and update_by = #{updateBy, jdbcType=INTEGER} </if>
+				<if test="updateTime != null" > and update_time = #{updateTime, jdbcType=TIMESTAMP} </if>
+		</trim>
+	</sql>
+	
+	
+	<!-- 单条查询 -->
+	<select id="get" resultMap="UserPo">
+		select <include refid="UserColumns"/>
+		from sys_user
+		<where><include refid="allAndEqual"/></where>
+	</select>
+	
+	<!-- 批量查询 -->
+	<select id="list" resultMap="UserPo">
+		select <include refid="UserColumns"/>
+		from sys_user
+		<where><include refid="allAndLike"/>
+			<choose>
+				<when test="page !=null and page.condition != null and page.condition != ''">
+					${page.condition} 
+				</when>
+			</choose>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				order by ${page.orderBy} 
+			</when>
+		</choose>
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insert"  useGeneratedKeys="true" keyProperty="id"  parameterType="com.msht.examination.user.entity.UserPo">
+		insert into sys_user
+		<include refid="insertColumns"/>
+		values 
+		<include refid="insertParams"/>
+	</insert>
+	
+	<!-- 批量插入 -->
+	<insert id="insertBatch" parameterType="java.util.List">
+		insert into sys_user
+		(<include refid="insertColumns"/>)
+		values 
+		<foreach collection="list" item="item" index="index" separator=",">
+			(<trim suffix="" suffixOverrides=",">
+				#{item.username,jdbcType=VARCHAR}, 
+				#{item.password,jdbcType=VARCHAR}, 
+				#{item.salt,jdbcType=VARCHAR}, 
+				#{item.email,jdbcType=VARCHAR}, 
+				#{item.status,jdbcType=INTEGER}, 
+				#{item.userType,jdbcType=INTEGER}, 
+				#{item.isDel,jdbcType=INTEGER},  
+				#{item.createBy,jdbcType=INTEGER}, 
+				#{item.createTime,jdbcType=TIMESTAMP}, 
+				#{item.updateBy,jdbcType=INTEGER}, 
+				#{item.updateTime,jdbcType=TIMESTAMP}</trim>)
+		</foreach>
+	</insert>
+	
+	<!-- 更新 -->
+	<update id="update" parameterType="com.msht.examination.user.entity.UserPo">
+		update sys_user
+		<set><include refid="updateParams"/></set>
+		<where>id = #{id}</where>
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from sys_user
+		<where>id = #{id}</where>
+	</delete>
+	
+	<!-- 总数 -->
+	<select id="count" resultType="java.lang.Integer">
+		select count(id) from sys_user
+		<where><include refid="allAndLike"/></where>
+	</select>
+	
+    <select id="page" resultMap="UserPo">
+		select <include refid="UserColumns"/> from sys_user 
+		<where><include refid="allAndLike"/>
+			<choose>
+				<when test="page !=null and page.condition != null and page.condition != ''">
+					${page.condition} 
+				</when>
+			</choose>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				order by ${page.orderBy} 
+			</when>
+		</choose>
+		limit #{page.start},#{page.pageSize}
+	</select>
+	
+    <select id="getUserRoleIds" resultType="java.lang.Long">
+        select ur.role_id from sys_user_role ur where ur.user_id=#{userId}
+	</select>
+	
+    <delete id="deleteUserRoleByRoleId" parameterType="java.lang.Long">
+		delete from sys_user_role where role_id=#{roleId}
+	</delete>
+	
+		
+	<insert id="insertUserRole" useGeneratedKeys="true" keyProperty="id" parameterType="com.msht.examination.user.entity.UserRolePo">
+        insert into sys_user_role(user_id,role_id) values(#{userId},#{roleId})
+	</insert>
+	
+	<delete id="deleteUserRoleByUserId" parameterType="java.lang.Long">
+		delete from sys_user_role where user_id=#{userId}
+	</delete>
+</mapper>  

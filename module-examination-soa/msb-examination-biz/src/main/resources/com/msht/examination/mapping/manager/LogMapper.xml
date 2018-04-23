@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<!--
+Copyright (c) 2017 by msht all rights reserved  
+*********************************************** 
+         符号转义说明 特殊服药转义说明
+    &lt;          < 
+    &gt;          >  
+    &lt;&gt;     <>
+    &amp;        & 
+    &apos;       '
+    &quot;       "
+  <![CDATA[ 这里写你的SQL或者符号 ]]> 
+ --> 
+    <mapper namespace="com.msht.examination.user.dao.LogDao" >  
+      <resultMap id="LogPo" type="com.msht.examination.user.entity.LogPo" >  
+        <id column="id" property="id" jdbcType="INTEGER" />  
+        <result column="user_id" property="userId" jdbcType="INTEGER" /> 
+        <result column="username" property="username" jdbcType="VARCHAR" />  
+        <result column="module" property="module" jdbcType="VARCHAR" />  
+        <result column="content" property="content" jdbcType="VARCHAR" /> 
+        <result column="status" property="status" jdbcType="INTEGER" /> 
+        <result column="resp_time" property="respTime" jdbcType="INTEGER" /> 
+        <result column="ip" property="ip" jdbcType="VARCHAR" /> 
+        <result column="group_id" property="groupId" jdbcType="INTEGER" /> 
+        <result column="oper_time" property="operTime" jdbcType="TIMESTAMP" /> 
+      </resultMap>  
+      <sql id="LogColumns" >  
+         id,user_id,username,module,content,status,resp_time,ip,group_id,oper_time
+      </sql> 
+      
+	<!-- 插入列 -->
+	<sql id="insertColumns">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="id != null" > id ,</if>
+				<if test="userId != null" > user_id ,</if>
+				<if test="username != null and username !=''" > username ,</if>
+				<if test="module != null and module !=''" > module ,</if>
+				<if test="content != null and content !=''" > content ,</if>
+				<if test="status != null" > status ,</if>
+				<if test="respTime != null" > resp_time ,</if>
+				<if test="ip != null and ip !=''" > ip ,</if>
+				<if test="groupId != null" > group_id ,</if>
+				<if test="operTime != null" > oper_time ,</if>
+		</trim>
+	</sql> 
+	
+    <!-- 插入值 -->
+	<sql id="insertParams">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+				<if test="id != null" > #{id, jdbcType=INTEGER}  ,</if>
+				<if test="userId != null" > #{userId, jdbcType=INTEGER}  ,</if>
+				<if test="username != null and username !=''" > #{username, jdbcType=VARCHAR} ,</if>
+				<if test="module != null and module !=''" > #{module, jdbcType=VARCHAR} ,</if>
+				<if test="content != null and content !=''" > #{content, jdbcType=VARCHAR} ,</if>
+				<if test="status != null" > #{status, jdbcType=INTEGER}  ,</if>
+				<if test="respTime != null" > #{respTime, jdbcType=INTEGER}  ,</if>
+				<if test="ip != null and ip !=''" > #{ip, jdbcType=VARCHAR} ,</if>
+				<if test="groupId != null" > #{groupId, jdbcType=INTEGER}  ,</if>
+				<if test="operTime != null" > #{operTime, jdbcType=TIMESTAMP}  ,</if>
+		</trim>
+	</sql>
+	
+    <!-- 更新参数 -->
+	<sql id="updateParams">
+		<trim suffix="" suffixOverrides=",">
+				
+				<if test="userId != null" > user_id = #{userId, jdbcType=INTEGER}  ,</if>
+				<if test="username != null and username !=''" > username = #{username, jdbcType=VARCHAR}  ,</if>
+				<if test="module != null and module !=''" > module = #{module, jdbcType=VARCHAR} ,</if>
+				<if test="content != null and content !=''" > content = #{content, jdbcType=VARCHAR} ,</if>
+				<if test="status != null" > status = #{status, jdbcType=INTEGER}  ,</if>
+				<if test="respTime != null" > resp_time = #{respTime, jdbcType=INTEGER}  ,</if>
+				<if test="ip != null and ip !=''" > ip = #{ip, jdbcType=VARCHAR} ,</if>
+				<if test="groupId != null" > group_id = #{groupId, jdbcType=INTEGER}  ,</if>
+				<if test="operTime != null" > oper_time = #{operTime, jdbcType=TIMESTAMP}  ,</if>
+		</trim>
+	</sql>
+	
+    <!-- 精准查询 -->
+	<sql id="allAndEqual">
+		<trim suffix="" suffixOverrides=",">
+				<if test="id != null" > and id = #{id, jdbcType=INTEGER} </if>
+				<if test="userId != null" > and user_id = #{userId, jdbcType=INTEGER}  </if>
+				<if test="username != null and username !=''" > and username = #{username, jdbcType=VARCHAR}  </if>
+				<if test="module != null and module !=''" > and module = #{module, jdbcType=VARCHAR} </if>
+				<if test="content != null and content !=''" > and content = #{content, jdbcType=VARCHAR} </if>
+				<if test="status != null" > and status = #{status, jdbcType=INTEGER}  </if>
+				<if test="respTime != null" > and resp_time = #{respTime, jdbcType=INTEGER}  </if>
+				<if test="ip != null and ip !=''" > and ip = #{ip, jdbcType=VARCHAR} </if>
+				<if test="groupId != null" > and group_id = #{groupId, jdbcType=INTEGER}  </if>
+				<if test="operTime != null" > and oper_time = #{operTime, jdbcType=TIMESTAMP}  </if>
+		</trim>
+	</sql>
+	
+     <!-- 模糊查询 -->
+	<sql id="allAndLike">
+		<trim suffix="" suffixOverrides=",">
+				<if test="id != null" > and id = #{id, jdbcType=INTEGER} </if>
+				<if test="userId != null" > and user_id = #{userId, jdbcType=INTEGER}  </if>
+				<if test="username != null and username !=''" >  and username like concat('%',#{username, jdbcType=VARCHAR},'%') </if>
+				<if test="module != null and module !=''" > and module = #{module, jdbcType=VARCHAR} </if>
+				<if test="content != null and content !=''" > and content like concat('%',#{content, jdbcType=VARCHAR},'%') </if>
+				<if test="status != null" > and status = #{status, jdbcType=INTEGER}  </if>
+				<if test="respTime != null" > and resp_time = #{respTime, jdbcType=INTEGER}  </if>
+				<if test="ip != null and ip !=''" > and ip = #{ip, jdbcType=VARCHAR} </if>
+				<if test="groupId != null" > and group_id = #{groupId, jdbcType=INTEGER}  </if>
+				<if test="operTime != null" > and oper_time = #{operTime, jdbcType=TIMESTAMP}  </if>
+		</trim>
+	</sql>
+	
+	
+	<!-- 单条查询 -->
+	<select id="get" resultMap="LogPo">
+		select <include refid="LogColumns"/>
+		from sys_log
+		<where><include refid="allAndEqual"/></where>
+	</select>
+	
+	<!-- 批量查询 -->
+	<select id="list" resultMap="LogPo">
+		select <include refid="LogColumns"/>
+		from sys_log
+		<where><include refid="allAndLike"/>
+			<choose>
+				<when test="page !=null and page.condition != null and page.condition != ''">
+					${page.condition} 
+				</when>
+			</choose>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				order by ${page.orderBy} 
+			</when>
+		</choose>
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insert"  useGeneratedKeys="true" keyProperty="id"  parameterType="com.msht.examination.user.entity.LogPo">
+		insert into sys_log
+		<include refid="insertColumns"/>
+		values 
+		<include refid="insertParams"/>
+	</insert>
+	
+	<!-- 批量插入 -->
+	<insert id="insertBatch" parameterType="java.util.List">
+		insert into sys_log
+		(<include refid="insertColumns"/>)
+		values 
+		<foreach collection="list" item="item" index="index" separator=",">
+			(<trim suffix="" suffixOverrides=",">
+				#{item.userId,jdbcType=INTEGER}, 
+				#{item.username,jdbcType=VARCHAR}, 
+				#{item.module,jdbcType=VARCHAR}, 
+				#{item.content,jdbcType=VARCHAR}, 
+				#{item.status,jdbcType=INTEGER}, 
+				#{item.respTime,jdbcType=INTEGER}, 
+				#{item.ip,jdbcType=VARCHAR}, 
+				#{item.groupId,jdbcType=INTEGER}, 
+				#{item.operTime,jdbcType=TIMESTAMP}</trim>)
+		</foreach>
+	</insert>
+	
+	<!-- 更新 -->
+	<update id="update" parameterType="com.msht.examination.user.entity.LogPo">
+		update sys_log
+		<set><include refid="updateParams"/></set>
+		<where>id = #{id}</where>
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from sys_log
+		<where>id = #{id}</where>
+	</delete>
+	
+	<!-- 总数 -->
+	<select id="count" resultType="java.lang.Integer">
+		select count(id) from sys_log
+		<where><include refid="allAndLike"/></where>
+	</select>
+	
+    <select id="page" resultMap="LogPo">
+		select <include refid="LogColumns"/> from sys_log 
+		<where><include refid="allAndLike"/>
+			<choose>
+				<when test="page !=null and page.condition != null and page.condition != ''">
+					${page.condition} 
+				</when>
+			</choose>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				order by ${page.orderBy} 
+			</when>
+		</choose>
+		limit #{page.start},#{page.pageSize}
+	</select>
+	
+</mapper>  
